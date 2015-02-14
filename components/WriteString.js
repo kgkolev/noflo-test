@@ -2,6 +2,7 @@ var noflo = require('noflo');
 
 exports.getComponent = function () {
   var c = new noflo.Component();
+  c.description = "simple component to write html to httpRequest.res and send for output";
   var string = null;
   var request = null;
 
@@ -37,7 +38,7 @@ exports.getComponent = function () {
   
   c.outPorts.add('out', function(event) {
     if (event == 'connect' && request && string) {
-      request.res.write = string;
+      request.res.write(string);
       c.outPorts.out.send(request);
       request = null;
       c.outPorts.out.disconnect();
@@ -45,3 +46,4 @@ exports.getComponent = function () {
   });
   return c;
 };
+
