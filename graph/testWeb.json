@@ -1,0 +1,224 @@
+{
+    "properties": {
+        "name": "testWeb",
+        "project": "test",
+        "id": "test/testWeb",
+        "environment": {
+            "type": "noflo-nodejs"
+        },
+        "changed": true
+    },
+    "inports": {},
+    "outports": {},
+    "groups": [],
+    "processes": {
+        "webserver/Server_ct26e": {
+            "component": "webserver/Server",
+            "metadata": {
+                "label": "webserver/Server",
+                "x": -144,
+                "y": 144,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "woute/Match_54iua": {
+            "component": "woute/Match",
+            "metadata": {
+                "label": "woute/Match",
+                "x": 144,
+                "y": 144,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "Index": {
+            "component": "test/WriteString",
+            "metadata": {
+                "label": "Index",
+                "x": 324,
+                "y": 0,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "NotFound": {
+            "component": "test/WriteString",
+            "metadata": {
+                "label": "NotFound",
+                "x": 324,
+                "y": 288,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "SendIndex": {
+            "component": "webserver/SendResponse",
+            "metadata": {
+                "label": "SendIndex",
+                "x": 540,
+                "y": 0,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "SendNotFound": {
+            "component": "webserver/SendResponse",
+            "metadata": {
+                "label": "SendNotFound",
+                "x": 540,
+                "y": 288,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "Reader": {
+            "component": "filesystem/ReadFile",
+            "metadata": {
+                "label": "Reader",
+                "x": 144,
+                "y": -72,
+                "width": 72,
+                "height": 72
+            }
+        },
+        "ReadError": {
+            "component": "filesystem/ReadFile",
+            "metadata": {
+                "label": "ReadError",
+                "x": 144,
+                "y": 360,
+                "width": 72,
+                "height": 72
+            }
+        }
+    },
+    "connections": [
+        {
+            "src": {
+                "process": "webserver/Server_ct26e",
+                "port": "request"
+            },
+            "tgt": {
+                "process": "woute/Match_54iua",
+                "port": "in"
+            },
+            "metadata": {}
+        },
+        {
+            "src": {
+                "process": "woute/Match_54iua",
+                "port": "out"
+            },
+            "tgt": {
+                "process": "Index",
+                "port": "in"
+            },
+            "metadata": {}
+        },
+        {
+            "src": {
+                "process": "woute/Match_54iua",
+                "port": "fail"
+            },
+            "tgt": {
+                "process": "NotFound",
+                "port": "in"
+            },
+            "metadata": {}
+        },
+        {
+            "src": {
+                "process": "Index",
+                "port": "out"
+            },
+            "tgt": {
+                "process": "SendIndex",
+                "port": "in"
+            },
+            "metadata": {}
+        },
+        {
+            "src": {
+                "process": "NotFound",
+                "port": "out"
+            },
+            "tgt": {
+                "process": "SendNotFound",
+                "port": "in"
+            },
+            "metadata": {}
+        },
+        {
+            "src": {
+                "process": "Reader",
+                "port": "out"
+            },
+            "tgt": {
+                "process": "Index",
+                "port": "string"
+            },
+            "metadata": {}
+        },
+        {
+            "src": {
+                "process": "ReadError",
+                "port": "out"
+            },
+            "tgt": {
+                "process": "NotFound",
+                "port": "string"
+            },
+            "metadata": {}
+        },
+        {
+            "data": "index",
+            "tgt": {
+                "process": "woute/Match_54iua",
+                "port": "match"
+            }
+        },
+        {
+            "data": "utf-8",
+            "tgt": {
+                "process": "Reader",
+                "port": "encoding"
+            }
+        },
+        {
+            "data": "static/index.html",
+            "tgt": {
+                "process": "Reader",
+                "port": "in"
+            }
+        },
+        {
+            "data": "utf-8",
+            "tgt": {
+                "process": "ReadError",
+                "port": "encoding"
+            }
+        },
+        {
+            "data": "static/404.html",
+            "tgt": {
+                "process": "ReadError",
+                "port": "in"
+            }
+        },
+        {
+            "data": "GET",
+            "tgt": {
+                "process": "woute/Match_54iua",
+                "port": "method"
+            }
+        },
+        {
+            "data": "4343",
+            "tgt": {
+                "process": "webserver/Server_ct26e",
+                "port": "listen"
+            }
+        }
+    ]
+}

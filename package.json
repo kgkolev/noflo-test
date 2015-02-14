@@ -1,0 +1,20 @@
+{
+  "name": "noflo-test",
+  "version": "0.0.1",
+  "description": "testing component management with noflo-ui",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node node_modules/.bin/noflo-nodejs"
+  },
+  "author": "kkolev",
+  "license": "ISC",
+  "dependencies": {
+    "noflo": "^0.5.11",
+    "noflo-core": "^0.1.11",
+    "noflo-filesystem": "^1.0.6",
+    "noflo-nodejs": "0.0.6",
+    "noflo-webserver": "0.0.4",
+    "noflo-woute": "^0.1.4"
+  }
+}
